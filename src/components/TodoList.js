@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoItem from "./TodoItem";
 
-function TodoList({todoItems, changeCompleted}) {
+function TodoList({todoItems, changeCompleted, deleteItem}) {
     return (
         <div className="main">
             <input className="toggle-all" type="checkbox"/>
@@ -11,6 +11,7 @@ function TodoList({todoItems, changeCompleted}) {
                         key={item.id}
                         isCompleted={item.isCompleted}
                         changeCompleted={() => changeCompleted(item.id)}
+                        deleteItem={() => deleteItem(item.id)}
                         value={item.value}
                         checked={item.isCompleted}
                     />)}

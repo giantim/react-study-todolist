@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TodoItem({isCompleted, changeCompleted, value, checked}) {
+function TodoItem({isCompleted, changeCompleted, checked, value, deleteItem}) {
     function changeInput(event) {
         return event.target.value;
     }
@@ -17,7 +17,10 @@ function TodoItem({isCompleted, changeCompleted, value, checked}) {
                         defaultChecked={checked}
                     />
                     <label className="label">{value}</label>
-                    <button className="destroy"></button>
+                    <button
+                        className="destroy"
+                        onClick={deleteItem}
+                    ></button>
                 </div>
                 <input
                     className="edit"

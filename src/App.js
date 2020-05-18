@@ -26,11 +26,24 @@ function App() {
         setItem(item.map(it => it.id === id ? {...it, isCompleted: !it.isCompleted} : it));
     }
 
+    const onDeleteHandler = id => {
+        const confirmDelete = window.confirm(`${item.filter(it => it.id === id)[0].value}를 지우시겠습니까?`);
+        if (confirmDelete) {
+            setItem(item.filter(it => it.id !== id));
+        }
+    }
+
     return (
         <div>
             <section className="todoapp">
-                <TodoInput onAdd={onAddHandler}/>
-                <TodoList todoItems={item} changeCompleted={onChangeHandler}/>
+                <TodoInput
+                    onAdd={onAddHandler}
+                />
+                <TodoList
+                    todoItems={item}
+                    changeCompleted={onChangeHandler}
+                    deleteItem={onDeleteHandler}
+                />
                 <TodoCount />
             </section>
         </div>
