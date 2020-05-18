@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
-import TodoChange from "./components/TodoChange";
+import TodoCount from "./components/TodoCount";
 
 function App() {
     const [item, setItem] = useState([
@@ -22,8 +22,8 @@ function App() {
         setItem(item.concat(newTodoItem));
     }
 
-    const onChangeHandler = (event) => {
-        const target = event.target;
+    const onChangeHandler = id => {
+        setItem(item.map(it => it.id === id ? {...it, isCompleted: !it.isCompleted} : it));
     }
 
     return (
@@ -31,7 +31,7 @@ function App() {
             <section className="todoapp">
                 <TodoInput onAdd={onAddHandler}/>
                 <TodoList todoItems={item} changeCompleted={onChangeHandler}/>
-                <TodoChange />
+                <TodoCount />
             </section>
         </div>
     );

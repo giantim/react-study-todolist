@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TodoChange(props) {
+function TodoCount(props) {
     return (
         <div className="count-container">
             <span className="todo-count">총 <strong>0</strong> 개</span>
@@ -19,4 +19,4 @@ function TodoChange(props) {
     );
 }
 
-export default TodoChange;
+export default TodoCount;

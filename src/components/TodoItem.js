@@ -1,6 +1,9 @@
 import React from 'react';
 
-function TodoItem({id, isCompleted, changeCompleted, value}) {
+function TodoItem({isCompleted, changeCompleted, value, checked}) {
+    function changeInput(event) {
+        return event.target.value;
+    }
 
     return (
         <>
@@ -9,13 +12,18 @@ function TodoItem({id, isCompleted, changeCompleted, value}) {
                     <input
                         className="toggle"
                         type="checkbox"
+                        onChange={changeInput}
                         onClick={changeCompleted}
-                        data-item-id={id}
+                        defaultChecked={checked}
                     />
                     <label className="label">{value}</label>
                     <button className="destroy"></button>
                 </div>
-                <input className="edit" value={value}/>
+                <input
+                    className="edit"
+                    value={value}
+                    onChange={changeInput}
+                />
             </li>
         </>
     );
