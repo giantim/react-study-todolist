@@ -10,16 +10,16 @@ function App() {
         {id: 2, value: "리액트 배우기", isCompleted: false},
         {id: 3, value: "스프링 배우기", isCompleted: true}
     ]);
-
-    let id = item.length;
+    const [itemIndex, setItemIndex] = useState(item.length + 1);
 
     const onAddHandler = (content) => {
         const newTodoItem = {
-            id: id,
+            id: itemIndex,
             value: content,
             isCompleted: false
         };
         setItem(item.concat(newTodoItem));
+        setItemIndex(itemIndex + 1);
     }
 
     const onChangeHandler = id => {

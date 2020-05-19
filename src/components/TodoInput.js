@@ -27,7 +27,7 @@ function TodoInput({onAdd}) {
                 placeholder="할일을 추가해주세요"
                 autoFocus
                 onChange={changeInput}
-                onKeyDown={addTodoItem}
+                onKeyUp={addTodoItem}
             />
         </div>
     );
