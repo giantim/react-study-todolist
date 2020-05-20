@@ -6,17 +6,19 @@ import TodoCount from "./components/TodoCount";
 
 function App() {
     const [item, setItem] = useState([
-        {id: 1, value: "자바스크립트 배우기", isCompleted: true},
-        {id: 2, value: "리액트 배우기", isCompleted: false},
-        {id: 3, value: "스프링 배우기", isCompleted: true}
+        {id: 1, value: "자바스크립트 배우기", isCompleted: true, isEditing: false},
+        {id: 2, value: "리액트 배우기", isCompleted: false, isEditing: false},
+        {id: 3, value: "스프링 배우기", isCompleted: true, isEditing: false}
     ]);
     const [itemIndex, setItemIndex] = useState(item.length + 1);
+
 
     const onAddHandler = (content) => {
         const newTodoItem = {
             id: itemIndex,
             value: content,
-            isCompleted: false
+            isCompleted: false,
+            isEditing: false
         };
         setItem(item.concat(newTodoItem));
         setItemIndex(itemIndex + 1);
@@ -33,6 +35,14 @@ function App() {
         }
     }
 
+    const onEditHandler = id => {
+        setItem(item.map(it => it.id === id ? {...it, isEditing: !it.isEditing} : it));
+    }
+
+    const onEditTodoItemHandler = (id, value) => {
+        setItem(item.map(it => it.id === id ? {...it, value: value, isEditing: !it.isEditing} : it));
+    }
+
     return (
         <div>
             <section className="todoapp">
@@ -43,6 +53,8 @@ function App() {
                     todoItems={item}
                     changeCompleted={onChangeHandler}
                     deleteItem={onDeleteHandler}
+                    editMode={onEditHandler}
+                    editItem={onEditTodoItemHandler}
                 />
                 <TodoCount />
             </section>

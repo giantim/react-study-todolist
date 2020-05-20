@@ -1,13 +1,34 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-function TodoItem({isCompleted, changeCompleted, checked, value, deleteItem}) {
+function TodoItem({isCompleted, isEditing, changeCompleted, checked, value, deleteItem, changeEditMode, editItem}) {
+    const [input, setInput] = useState(value);
+
     function changeInput(event) {
-        return event.target.value;
+        setInput(event.target.value);
+    }
+
+    function isValid(event, value) {
+        return event.key === "Enter"
+            && value.trim().length !== 0;
+    }
+
+    function editTodoItem(event) {
+        const $target = event.target;
+        if (event.key === "Escape") {
+            setInput(value);
+            editItem.handler(editItem.id, value);
+        }
+        if (isValid(event, $target.value)) {
+            editItem.handler(editItem.id, $target.value);
+        }
     }
 
     return (
         <>
-            <li className={isCompleted ? "completed" : ""}>
+            <li
+                className={isCompleted ? "completed" : isEditing ? "editing" : ""}
+                onDoubleClick={changeEditMode}
+            >
                 <div className="view">
                     <input
                         className="toggle"
@@ -24,8 +45,9 @@ function TodoItem({isCompleted, changeCompleted, checked, value, deleteItem}) {
                 </div>
                 <input
                     className="edit"
-                    value={value}
+                    value={input}
                     onChange={changeInput}
+                    onKeyUp={editTodoItem}
                 />
             </li>
         </>
