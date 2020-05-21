@@ -11,6 +11,7 @@ function App() {
         {id: 3, value: "스프링 배우기", isCompleted: true, isEditing: false}
     ]);
     const [itemIndex, setItemIndex] = useState(item.length + 1);
+    const [originalItems, setOriginalItems] = useState(item);
 
 
     const onAddHandler = (content) => {
@@ -21,26 +22,43 @@ function App() {
             isEditing: false
         };
         setItem(item.concat(newTodoItem));
+        setOriginalItems(item);
         setItemIndex(itemIndex + 1);
     }
 
     const onChangeHandler = id => {
         setItem(item.map(it => it.id === id ? {...it, isCompleted: !it.isCompleted} : it));
+        setOriginalItems(item);
     }
 
     const onDeleteHandler = id => {
         const confirmDelete = window.confirm(`${item.filter(it => it.id === id)[0].value}를 지우시겠습니까?`);
         if (confirmDelete) {
             setItem(item.filter(it => it.id !== id));
+            setOriginalItems(item);
         }
     }
 
     const onEditHandler = id => {
         setItem(item.map(it => it.id === id ? {...it, isEditing: !it.isEditing} : it));
+        setOriginalItems(item);
     }
 
     const onEditTodoItemHandler = (id, value) => {
         setItem(item.map(it => it.id === id ? {...it, value: value, isEditing: !it.isEditing} : it));
+        setOriginalItems(item);
+    }
+
+    const onChangeCategoryHandler = value => {
+        if (value === "active") {
+            const activeItems = originalItems.filter(it => !it.isCompleted);
+            return setItem(activeItems);
+        }
+        if (value === "completed") {
+            const completedItems = originalItems.filter(it => it.isCompleted);
+            return setItem(completedItems);
+        }
+        setItem(originalItems);
     }
 
     return (
@@ -56,7 +74,10 @@ function App() {
                     editMode={onEditHandler}
                     editItem={onEditTodoItemHandler}
                 />
-                <TodoCount />
+                <TodoCount
+                    itemCount={item.length}
+                    changeCategory={onChangeCategoryHandler}
+                />
             </section>
         </div>
     );
