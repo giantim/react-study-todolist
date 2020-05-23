@@ -6,13 +6,17 @@ import TodoCount from "./components/TodoCount";
 
 function App() {
     const [item, setItem] = useState([
-        {id: 1, value: "자바스크립트 배우기", isCompleted: true, isEditing: false},
-        {id: 2, value: "리액트 배우기", isCompleted: false, isEditing: false},
-        {id: 3, value: "스프링 배우기", isCompleted: true, isEditing: false}
+        {id: 1, value: "리액트 배우기", isCompleted: false, isEditing: false},
+        {id: 2, value: "스프링 배우기", isCompleted: false, isEditing: false},
+        {id: 3, value: "스프링 정리하기", isCompleted: true, isEditing: false}
     ]);
-    const [itemIndex, setItemIndex] = useState(item.length + 1);
     const [originalItems, setOriginalItems] = useState(item);
+    const [itemIndex, setItemIndex] = useState(item.length + 1);
 
+    const changeItems = value => {
+        setItem(value);
+        setOriginalItems(value);
+    }
 
     const onAddHandler = (content) => {
         const newTodoItem = {
@@ -21,32 +25,32 @@ function App() {
             isCompleted: false,
             isEditing: false
         };
-        setItem(item.concat(newTodoItem));
-        setOriginalItems(item);
+        const newItems = item.concat(newTodoItem);
+        changeItems(newItems);
         setItemIndex(itemIndex + 1);
     }
 
     const onChangeHandler = id => {
-        setItem(item.map(it => it.id === id ? {...it, isCompleted: !it.isCompleted} : it));
-        setOriginalItems(item);
+        const newItems = item.map(it => it.id === id ? {...it, isCompleted: !it.isCompleted} : it);
+        changeItems(newItems);
     }
 
     const onDeleteHandler = id => {
         const confirmDelete = window.confirm(`${item.filter(it => it.id === id)[0].value}를 지우시겠습니까?`);
         if (confirmDelete) {
-            setItem(item.filter(it => it.id !== id));
-            setOriginalItems(item);
+            const newItems = item.filter(it => it.id !== id);
+            changeItems(newItems);
         }
     }
 
     const onEditHandler = id => {
-        setItem(item.map(it => it.id === id ? {...it, isEditing: !it.isEditing} : it));
-        setOriginalItems(item);
+        const newItems = item.map(it => it.id === id ? {...it, isEditing: !it.isEditing} : it);
+        changeItems(newItems);
     }
 
     const onEditTodoItemHandler = (id, value) => {
-        setItem(item.map(it => it.id === id ? {...it, value: value, isEditing: !it.isEditing} : it));
-        setOriginalItems(item);
+        const newItems = item.map(it => it.id === id ? {...it, value: value, isEditing: !it.isEditing} : it);
+        changeItems(newItems);
     }
 
     const onChangeCategoryHandler = value => {

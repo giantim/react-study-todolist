@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 function TodoInput({onAdd}) {
+    const [input, setInput] = useState("");
+
     function changeInput(event) {
-        return event.target.value;
+        return setInput(event.target.value);
     }
 
     function isValid(event, value) {
@@ -11,10 +13,9 @@ function TodoInput({onAdd}) {
     }
 
     function addTodoItem(event) {
-        const $newTodoTarget = event.target;
-        if (isValid(event, $newTodoTarget.value)) {
-            onAdd($newTodoTarget.value);
-            $newTodoTarget.value = "";
+        if (isValid(event, input)) {
+            onAdd(input);
+            setInput("");
         }
     }
 
@@ -28,6 +29,7 @@ function TodoInput({onAdd}) {
                 autoFocus
                 onChange={changeInput}
                 onKeyUp={addTodoItem}
+                value={input}
             />
         </div>
     );
